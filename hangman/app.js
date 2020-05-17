@@ -19,17 +19,17 @@ window.addEventListener('keypress', (e) =>  // this takes time
 })
 
 // passing a callback function to a functon as an argument - asynchronous
-getPuzzle("2", (error, puzzle) => 
-{
-    if (error) console.log(`Error: ${error}`)
-    else console.log(puzzle) 
+getPuzzle('2').then((puzzle) => {
+    console.log(puzzle)
+}, (err) => {
+    console.log(`Error: ${err}`)
 })       
 
-// // challange area =============================================================
-getCountry("US", (error, countryDetails) =>
-{
-    if (error) console.log(`Error: ${error}`)
-    else console.log(`Country name: ${countryDetails.name}`)
+// challange area =============================================================
+getCountry('US').then((countryDetails) => {
+    console.log(`Country name: ${countryDetails.name}`)
+}, (err) => {
+    console.log(`Error: ${err}`)
 })
 
 

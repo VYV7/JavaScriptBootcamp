@@ -1,6 +1,6 @@
 // asynchronous version
 //-----------------------------------------------------------------------------
-const getPuzzle = (wordCount, callback) =>
+const getPuzzle = (wordCount) => new Promise((resolve, reject) =>
 {
     const request = new XMLHttpRequest()                            // create new request object
 
@@ -10,21 +10,21 @@ const getPuzzle = (wordCount, callback) =>
         if (e.target.readyState === 4 && e.target.status === 200)   // if status DONE, OK
         {
             const data = JSON.parse(e.target.responseText)          // extract data object
-            callback(undefined, data.puzzle)
+            resolve(data.puzzle)
         }
         else if (e.target.readyState === 4)                         // if status DONE, not OK
         {
-            callback('Error occured', undefined)
+            reject('Error occured')
         }
     })
 
     // init req, setting the GET method - open and send
     request.open('GET', `http://puzzle.mead.io/puzzle?wordCount=${wordCount}`) 
     request.send()   
-}
+})
 
 //-----------------------------------------------------------------------------
-const getCountry = (countryCode, callback) =>
+const getCountry = (countryCode) => new Promise((resolve, reject) =>
 {
     const countryRequest = new XMLHttpRequest()                     // create new request object
 
@@ -39,11 +39,11 @@ const getCountry = (countryCode, callback) =>
             console.log(`Searching for ${countryCode}...`)
             const country = countries.find((country) => country.alpha2Code === countryCode)
     
-            callback(undefined, country)
+            resolve(country)
         }
         else if (e.target.readyState === 4)
         {
-            callback('Unable to fetch data', undefined)
+            reject('Bad state')
         }
     })
 
@@ -51,7 +51,7 @@ const getCountry = (countryCode, callback) =>
     countryRequest.open('GET', 'http://restcountries.eu/rest/v2/all')
     countryRequest.send() 
     console.log('Request sent')
-}
+})
 //-----------------------------------------------------------------------------
 
 

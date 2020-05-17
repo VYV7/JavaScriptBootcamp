@@ -1,52 +1,60 @@
 // callback ===============================================
 // calls callback function after a delay
-const getDataCallback = (callback) =>
+const getDataCallback = (num, callback) =>
 {
     setTimeout( () =>
     {
-        // callback(undefined, 'This is the data (callback)')   // success
-        callback('This is the error (callback)', undefined)     // error
+        if (typeof num === 'number') {
+            callback(undefined, num * 2)
+        } else {
+            callback('Number must be provided')
+        }
     }, 2000)
 }
 // defines and passes a callback function to the above 
 // function.
 // success/error is determined based on the arguments
-getDataCallback((err, data) =>
+getDataCallback(2, (err, data) =>
 {
-    if (err)    console.log(err)
-    else        console.log(data)
+    if (err) {
+        console.log(err)
+    } else {
+        getDataCallback(data, (err, data) => {
+            if (err) {
+                console.log('error')
+            } else {
+                console.log(`Callback data: ${data}`)
+            }
+        })
+    }
 })
 
 // promise ================================================
 // promise constructor function - called right away
-const myPromise = new Promise((resolve, reject) =>
-{
-    setTimeout( () =>
-    {
-        // resolve('This is the data (promise)')    // success
-        reject('This is the error (promise)')       // error
+const getDataPromise = (num) => new Promise((resolve, reject) => {
+    setTimeout( () => {
+        typeof num === 'number' ? resolve(num * 2) : reject('Number must be provided')
     }, 2000)
 })
 
-// sets up handlers for resolve and reject
-// separate functions for success and error
-myPromise.then((data) =>
-{
-    console.log(data)
-},
-(err) =>
-{
+getDataPromise(2).then((data) => {
+    getDataPromise(data).then((data) => {
+        console.log(`Promise data: ${data}`)
+    }, (err) => {
+        console.log(err)
+    })
+}, (err) => {
     console.log(err)
 })
-// can do different things with the same information
-// without fetching it twice
-myPromise.then((data) =>
-{
-    console.log('Using fetched data 2nd time:')
+
+// promise chaining
+
+getDataPromise(10).then((data) => {
+    return getDataPromise(data)
+}).then((data) => {
+    return getDataPromise(data)
+}).then((data) => {
     console.log(data)
-},
-(err) =>
-{
-    console.log('Handling error 2nd time:')
+}).catch((err) => {
     console.log(err)
 })
