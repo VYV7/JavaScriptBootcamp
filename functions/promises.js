@@ -48,7 +48,6 @@ getDataPromise(2).then((data) => {
 })
 
 // promise chaining
-
 getDataPromise(10).then((data) => {
     return getDataPromise(data)
 }).then((data) => {

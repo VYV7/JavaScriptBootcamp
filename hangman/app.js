@@ -19,19 +19,32 @@ window.addEventListener('keypress', (e) =>  // this takes time
 })
 
 // passing a callback function to a functon as an argument - asynchronous
-getPuzzle('2').then((puzzle) => {
-    console.log(puzzle)
-}, (err) => {
+getPuzzle('2').then((data) => {
+    console.log(data.puzzle)
+}).catch((err) => {
     console.log(`Error: ${err}`)
 })       
 
-// challange area =============================================================
-getCountry('US').then((countryDetails) => {
-    console.log(`Country name: ${countryDetails.name}`)
-}, (err) => {
-    console.log(`Error: ${err}`)
-})
 
+// // challange area =============================================================
+// getCountry('US').then((countryDetails) => {
+//     console.log(`Country name: ${countryDetails.name}`)
+// }, (err) => {
+//     console.log(`Error: ${err}`)
+// })
 
+// // test
+// // fetch
+// fetch('http://puzzle.mead.io/puzzle', {}).then((response) => {
+//     if (response.status === 200) {
+//         return response.json()
+//     } else {
+//         throw new Error('Unable to fetch the puzzle')
+//     }
+// }).then((data) => {
+//     console.log(data.puzzle)
+// }).catch((error) => {
+//     console.log(error)
+// })
 
 
