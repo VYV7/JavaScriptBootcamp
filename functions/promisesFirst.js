@@ -44,3 +44,4 @@ myPromise.then((data) => {
     console.log('Handling error 2nd time:')
     console.log(err)
 })
+
